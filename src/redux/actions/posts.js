@@ -8,6 +8,6 @@ export const getPosts = () => async (dispatch) => {
       payload: [],
     });
   } catch (error) {
-    console.log("Error Fetch_all ", error.message);
+    console.log("Error Fetch_all from action/posts", error.message);
   }
 };
