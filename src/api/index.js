@@ -1,14 +1,34 @@
 import axios from "axios";
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-const URL = "http://localhost:5000/posts";
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = ` Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
+  return req;
+});
 
-export const fetchPosts = () => axios.get(URL);
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
+export const fetchPost = (id) => API.get(`/posts/${id}`);
 
-export const createPost = (newPost) => axios.post(URL, newPost);
+// export const fetchPostBySearch = (query) =>
+//   API.get(
+//     `/posts/search?searchQuery=${query.search || "none"}&tags=${query.tags}`
+//   );
+export const fetchPostBySearch= (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const createPost = (newPost) => API.post("/posts", newPost);
 
 export const updatePost = (id, updatedData) =>
-  axios.patch(`${URL}/${id}`, updatedData);
+  API.patch(`/posts/${id}`, updatedData);
 
-export const deletePost = (id) => axios.delete(`${URL}/${id}`);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
 
-export const likeCount = (id) => axios.patch(`${URL}/${id}/likePost`);
+export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+
+export const comment=(value, id)=>API.post(`/posts/${id}/commentPost`,{value})
+
+export const signUp = (formData) => API.post(`/user/signup`, formData);
+
+export const signIn = (formData) => API.post(`/user/signin`, formData);

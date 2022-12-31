@@ -1,15 +1,31 @@
-import React from "react";
-import img from "../../images/pic1.png";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import useStyles from "./styles";
+import { useDispatch } from "react-redux";
+import decode from "jwt-decode";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 const Navbar = () => {
   const classes = useStyles();
-  const user = null;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  useEffect(() => {
+    const token = user?.token;
+    if (token) {
+      const decodedeToken = decode(token);
+      if (decodedeToken.exp * 1000 < new Date().getTime()) logout();
+    }
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+  };
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        <Typography
+        {/* <Typography
           className={classes.heading}
           component={Link}
           to="/"
@@ -17,27 +33,35 @@ const Navbar = () => {
           align="center"
         >
           Memories
-        </Typography>
-        <img src={img} alt="img" height={60} className={classes.image} />
+        </Typography> */}
+        {/* <img src={img} alt="img" height={60} className={classes.image} /> */}
+        <Link to="/">
+          <img
+            src="/img/logo7.png"
+            alt="icon"
+            height={60}
+            className={classes.image}
+          />
+        </Link>
       </div>
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
-              alt={user.result.name}
-              src={user.result.imgUrl}
+              alt={user?.result?.name}
+              src={user?.result?.imgUrl}
             >
-              {user.result.name.charAt(0)}
+              {user?.result?.name.charAt(0)}
             </Avatar>
             <Typography variant="h6" className={classes.userName}>
-              {user.result.name}
+              {user?.result?.name}
             </Typography>
             <Button
               variant="contained"
               className={classes.logout}
               color="secondary"
-              onClick={() => {}}
+              onClick={logout}
             >
               Logout
             </Button>
