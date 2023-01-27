@@ -1,5 +1,6 @@
 # Getting Started with Create React App
 
+## Home Page
 ![image](https://user-images.githubusercontent.com/94215091/215071440-74775f39-a9f4-49e0-ab57-ee65d37e119f.png)
 
 ### Login Page
@@ -11,3 +12,6 @@
 ### Searching and Creating form
 ![image](https://user-images.githubusercontent.com/94215091/215071863-1be61e83-63f7-4f31-ad46-80ab98ab8f9b.png)
 
+### Detail Page 
+![image](https://user-images.githubusercontent.com/94215091/215072596-2041342c-8895-4cec-add3-dd0a87c165ae.png)
+![image](https://user-images.githubusercontent.com/94215091/215072707-247940d1-da10-4e36-8225-6ef3dd33a178.png)
